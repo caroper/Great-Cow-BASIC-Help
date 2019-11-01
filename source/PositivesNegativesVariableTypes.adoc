@@ -28,7 +28,7 @@ GCBASIC has Bit, Byte, Word and Long Variable Types, all of which are described 
 **Word** is normally used for its Numeric value. 16 Bits will allow it to store Numbers from Zero to 65535 which is large enough to store the product of any two 8 bit Bytes without overflowing. However, it is not confined to being used as a numeric value. It may be used in any manner that your application needs depending on how it interprets the 16 Bits of data. Examples may be a memory address or data pointer.
 
 
-* **Note:** the **Word variable type** in GCBASIC, or any other language, has nothing to do with the **Word Size** of the **ALU (Arithmetic and Logic Unit).** The Word size of a device (as opposed to the Word Type above) is a representation of the number of Bits that it can manipulate simultaneously in the ALU. The Word Size is generally 4 Bits in older Microprocessors (intel 4004) to 64 Bits in modern computer and 4G devices. The ALU size of the PIC and AVR Microcontrolers supported by GCBASIC are 8 Bits and so they are considered to have an 8 Bit Word.*
+* **Note:** the **Word variable type** in GCBASIC, or any other language, has nothing to do with the **Word Size** of the **ALU (Arithmetic and Logic Unit).** The Word size of a device (as opposed to the Word Type above) is a representation of the number of Bits that it can manipulate simultaneously in the ALU. The Word Size is generally 4 Bits in older Microprocessors (intel 4004) to 64 Bits in modern computer and 4G devices. The ALU size of the PIC and AVR Microcontrolers supported by GCBASIC are 8 Bits and so they are considered to have an 8 Bit Word.
 
 
 **Long** is for situations where Values exceeding 65535 have to be handled and has a range of zero to 4.29 Billion. It is rarely used in 8 Bit devices but is invaluable on the rare occasions that it is needed. The Millis function uses the Long Data Type to handle long time periods
@@ -55,14 +55,13 @@ In Computer Science the GCBASIC Word Variable type would be called an Unsigned I
 The modern way to refer to such types is:
 
 
-Uint16_t for an Unsigned 16 bit Integer Value and Int16_t for a Signed 16 Bit Integer Value.
+**Uint16_t** for an Unsigned 16 bit Integer Value and **Int16_t** for a Signed 16 Bit Integer Value.
 
 
 As you can see that eliminates the conflict between Word Size and the Size of a Word Variable as well as the Definition of an Integer Variable as opposed to a Word Variable both of which are 16 bit values.
 
 
 **One Size does not fit all**
-
 
 A lot of  confusion comes from the Type definitions of the chosen language, in this case GCBASIC  these are:
 ----
@@ -78,12 +77,9 @@ All 4 of the above are Integers in that they are representations of a non fracti
 ----
 But they can only represent positive numbers. In Mathematics we need an Integer that can be Positive, Negative, or Zero. Note that Zero is a Positive Whole Number.
 
-
 To add to the confusion (and hindering code portability) different implementations of C and C++ as well as versions of BASIC, PASCAL, FORTRAN and FORTH all use different sizes of Integer as the default integer size.
 
-
 They also differ in the declaration of signed vs unsigned Integers.
-
 
 In order to avoid confusion modern languages now encourage the use of  more specific types such as:
 ----
@@ -101,17 +97,14 @@ And the Unsigned Equivalents
 ----
 Such descriptive types help when porting and debugging code.
 
-
 To correlate the GCBASIC variable Type when porting code between Arduino and GCBASIC here is a list of Equivalents that you may use:
 ----
     #define Uint8_t  Byte
     #define Uint16_t Word
     #define Uint32_t Long
 
-
     #define Int16_t  Integer
 ----
-
 
 **There are always Negatives**
 
@@ -125,9 +118,9 @@ In mathematics, a negative number is a positive number prefixed by a ‘-’ (mi
 But this simple solution would have repercussions:
 
 
-1. The loss of a bit to represent the sign halves the magnitude of the variable.
-2. It allows the possibility of a Negative Zero
-3. Most ALU’s can only Add and Shift so they have no concept of negative.
+* The loss of a bit to represent the sign halves the magnitude of the variable.
+* It allows the possibility of a Negative Zero
+* Most ALU’s can only Add and Shift so they have no concept of negative.
 
 
 There is, however, a simple trick in Binary mathematics called the Two's Complement that overcomes all but the magnitude issue as the Most Significant Bit is still a sign bit.
@@ -162,7 +155,6 @@ The increment will result in a value of:
 ----
 So Minus one using an 8 Bit ALU in Two's Complement notation is 11111111
 
-
 Let's test it by adding -1 to plus 3
 ----
     11111111    -1
@@ -172,11 +164,10 @@ Let's test it by adding -1 to plus 3
 ----
 We have successfully subtracted 1 from 3 by adding Minus 1 to 3 and obtaining a result of 2.
 
+And thanks to Computer science we can now answer Shakspear’s centuries old question: *2B OR NOT 2B = -1*
 
-And thanks to Computer science we can now answer Shakspear’s centuries old question: 2B OR NOT 2B = -1
 
-
-Notice that whilst a Byte is normally used to represent 0 < 255 by making the MSB (Most Significant Bit) into a sign bit the maximum value is now 127. A signed 8 Bit integer can represent numbers in the range -128 < 0 < 127. That is still 256 values including Zero but they can now be Negative or Positive numbers.
+Notice that whilst a Byte is normally used to represent 0 < 255 by making the *MSB (Most Significant Bit)* into a sign bit the maximum value is now 127. A signed 8 Bit integer can represent numbers in the range -128 < 0 < 127. That is still 256 values including Zero but they can now be Negative or Positive numbers.
 
 
 The benefit of the two's complement method is that it works for any size of variable:
@@ -204,10 +195,3 @@ A Two's Complement number can be any bit size, in the case of GCBASIC there is o
 
 
 There is nothing wrong with treating any variable Type as signed and as seen you can even take the two’s compliment of a Byte and add it to another Byte in order to subtract one byte value from another. But the Maths Functions of GCBASIC are intended to work with Signed 16 bit integers and may fail if you try to use a signed 8 Bit or Signed 32 bit values.
-
-
-I hope this helps clear things up and, if it is found to be useful, I will refine it further and try to answer any specific questions  before placing it in the HELP Documentation.
-
-
-Cheers
-Chris
